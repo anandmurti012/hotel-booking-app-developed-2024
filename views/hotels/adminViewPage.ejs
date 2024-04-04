@@ -1,0 +1,81 @@
+<%- include('../partials/header') %>
+  <%- include('../partials/AdminNavbar') %>
+    <!-- <h2>Admin Panel</h2> -->
+    <div class="container-fluid mt-5">
+      <div class="row">
+        <div class="col-md-10 col-11 mx-auto">
+          <nav aria-label="breadcrumb" class="mb-3">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item"><a href="#">Library</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Data</li>
+            </ol>
+          </nav>
+
+          <div class="row">
+            <!-- side bar div-->
+            <div class="col-lg-3 col-md-4 d-md-block">
+              <div class="card bg-common card-left">
+                <div class="card-body">
+                  <nav class="nav d-md-block d-none">
+                    <a data-toggle="tab" class="nav-link active" aria-current="page" href="#bookings"><i
+                        class="fa-solid fa-hotel"></i> Recent
+                      Bookings</a>
+                    <a data-toggle="tab" class="nav-link" href="#transactions"><i class="fa-solid fa-money-bill"></i>
+                      Transaction</a>
+                    <a data-toggle="tab" class="nav-link" href="#users"><i class="fa-solid fa-user"></i> Users</a>
+                    <a data-toggle="tab" class="nav-link" href="#admin"><i class="fa-solid fa-lock"></i> Admin</a>
+                  </nav>
+                </div>
+              </div>
+            </div>
+
+            <!-- right side div starts-->
+            <div class="col-lg-8 col-md-9">
+              <div class="card">
+                <div class="card-header border-bottom mb-3 d-md-none">
+                  <ul class="nav nav-tabs card-header-tabs nav-fill">
+                    <li class="nav-item">
+                      <a data-toggle="tab" class="nav-link active" aria-current="page" href="#bookings"><i
+                          class="fa-solid fa-hotel"></i></a>
+                    </li>
+                    <li class="nav-item">
+                      <a data-toggle="tab" class="nav-link" href="#transactions"><i
+                          class="fa-solid fa-money-bill"></i></a>
+                    </li>
+                    <li class="nav-item">
+                      <a data-toggle="tab" class="nav-link" href="#users"><i class="fa-solid fa-user"></i></a>
+                    </li>
+                    <li class="nav-item">
+                      <a data-toggle="tab" class="nav-link" href="#admin"><i class="fa-solid fa-lock"></i></a>
+                    </li>
+                  </ul>
+                </div>
+                <!-- actual data which is live start -->
+                <div class="card-body tab-content border-0">
+
+                  <!-- Recent booking profile start -->
+                  <div class="tab-pane active" id="bookings">
+                    <h1>Hii This is my Booking page</h1>
+                    <%= mBookings %>
+                  </div>
+                    <!-- Transactions profile start -->
+                  <div class="tab-pane" id="transactions">
+                    <h1>Hii This is my transactions page</h1>
+                  </div>
+                      <!-- User profile start -->
+                  <div class="tab-pane" id="users">
+                    <h1>Hii This is my Users page</h1>
+                  </div>
+                      <!-- Admin profile start -->
+                  <div class="tab-pane" id="admin">
+                    <h1>Hii This is my Admin page</h1>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <%- include('../partials/footer') %>

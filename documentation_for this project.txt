@@ -1,0 +1,32 @@
+file name -> adminIndex.ejs   --It is a frontend page
+<% for(let hotel of adminhotels){ %>
+
+Note:- "adminhotels" came from server, while sending the page this is coming from here
+NOte:- "hotel" is came from "const newAdminHotel = new AdminHotel(req.body.hotel);" that is inside adminPanel.js
+	//as we can see that "req.body.hotel" here 'hotel' is a variable name that the thing 
+	//we are using inside for loop of frontend --> [for(let hotel of adminhotels)]
+
+file name-> adminPanel.js -- it is a backend page or server page we can say.
+router.get('/adminPanel', async (req, res) => {
+  try {
+    const adminhotels = await AdminHotel.find();
+    res.render('hotels/adminIndex', { adminhotels, page: 'Index - Hotels' }); //we are sending "adminhotels" as a 
+									      //response in frontend	
+  } catch (error) {
+    res.send(error);
+  }
+});
+
+
+router.post('/adminPanel', async (req, res) => {
+  try {
+    const newAdminHotel = new AdminHotel(req.body.hotel);
+    await newAdminHotel.save();
+    res.send('data saved');
+
+    // res.redirect(`/adminPanel/${newAdminHotel._id}`);  // Redirect to the admin panel or another appropriate page
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+

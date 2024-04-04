@@ -1,0 +1,81 @@
+<%- include('../partials/header') %>
+  <%- include('../partials/navbar') %>
+    <div class="container mt-3">
+      <div class="row m-auto">
+          
+          <!-- profile card -->
+          <div  class="col-lg-4">
+            <div>
+              <% for(let userProfile of userInfo) { %>
+              <div class="card" style="width: 18rem;">
+                <div class="d-flex justify-content-center">
+                  <img style="width: 200px; margin-right: 15px; height: 200px; border-radius: 50%; border: solid #ccc; object-fit: cover; object-position: center; display: inline;" src="<%= userProfile.profilePic %>" id="logged-in-img-status"></img>
+                </div>
+                <div class="card-body">
+                  <div class="d-flex justify-content-center">
+                    <h5 class="card-title"><%= userProfile.userName%></h5>
+                  </div>
+                  <div class="d-flex justify-content-center">
+                    <p class="card-text"><b>User Id: </b><%= userProfile.userId %></p>
+                  </div>
+                </div>
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item"><b>Email: </b> <%= userProfile.email %></li>
+                  <li class="list-group-item"><b>Address: </b><%= userProfile.address %></li>
+                </ul> 
+              </div>
+              <% } %>
+            </div>
+          </div>
+          <!-- booking content -->
+          <div class="col-lg-8">
+            <div>
+              <% if (globalUserId) { %>
+                <h2>My Bookings</h2>
+              <% } %>
+              <%= globalUserId ? '' : 'Please login to view your account' %>
+              <!-- Dynamic bookings status card -->
+              <% for (let booking of uBookings) { %>
+                <div class="card">
+                  <h5 class="card-header">Booking Id: <%= booking.bookingId %></h5>
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-lg-3">
+                        <img style="height: 150px; width: 150px;" src="https://media.istockphoto.com/id/1164435677/photo/happy-hotel-clerks-are-welcoming-professional-at-counter.webp?b=1&s=170667a&w=0&k=20&c=kfSoe_L96IDaBSBUzUEM2Z7cKUkCEfprCRUFdF2ebaQ=">
+                      </div>
+                      <div class="col-lg-2">
+                        <h5>Booking Status</h5>
+                        <p><%= booking.bookingStatus %></p>
+                      </div>
+                      <div class="col-lg-3">
+                        <h5>Booked Room</h5>
+                        <% const roomType = uRoomTypes.find(room => room.roomId === booking.roomId); %>
+                        <% if (roomType) { %>
+                          <p><%= roomType.roomName %></p>
+                        <% } else { %>
+                          <p>Room Not Found</p>
+                        <% } %>
+                      </div>
+                      <div class="col-lg-2">
+                        <h5>Person Count</h5>
+                        <strong><p><%= booking.personCount %></p></strong>
+                      </div>
+                      <div class="col-lg-2">
+                        <h5>Booking Dates</h5>
+                        <p>12/03/2024</p>
+                        <strong><p>to</p></strong>
+                        <p>18/02/2024</p>
+                      </div>
+                      <h5>Cancel your booking here: <button class="btn btn-danger">Cancel</button></h5>
+                    </div>
+                  </div>
+                </div><br>
+              <% } %>
+              
+              </div>
+          </div>
+      </div>
+    </div>
+ 
+  
+    <%- include('../partials/footer') %>

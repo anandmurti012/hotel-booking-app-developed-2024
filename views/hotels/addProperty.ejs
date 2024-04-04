@@ -1,0 +1,217 @@
+<%- include('../partials/header') %>
+<%- include('../partials/AdminNavbar') %>
+<style>
+  /* Custom CSS to adjust vertical spacing */
+  .custom-form-group {
+    margin-bottom: 5px; /* Adjust the value as per your choice */
+  }
+</style>
+<div class="container mt-3">
+  <div class="row">
+      <div class="col-lg-6 m-auto">
+          <form action="/addHotels" method="post" style="background-color: #f8f9fa; padding: 20px; border-radius: 10px; box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);">
+              <div class="form-group">
+                  <label for="name" class="form-label">Hotel Name</label>
+                  <input type="text" class="form-control" id="name" name="hotel[name]" style="border-radius: 5px;">
+              </div>
+
+              <div class="form-group">
+                  <label for="address" class="form-label">Address</label>
+                  <input type="text" class="form-control" id="address" name="hotel[address.fullAddress]" style="border-radius: 5px;">
+              </div>
+
+              <div class="form-group">
+                  <label for="stateDropdown" class="form-label">State</label>
+                  <select id="stateDropdown" name="hotel[address.state]" onchange="populateCityDropdown()" style="width: 100%; height: 39px; border-color: lightgray; border-radius: 5px;">
+                      <option value="">Select a state</option>
+                  </select>
+              </div>
+
+              <div class="form-group">
+                  <label for="cityDropdown" class="form-label">City</label>
+                  <select id="cityDropdown" name="hotel[address.city]" style="width: 100%; height: 39px; border-color: lightgray; border-radius: 5px;">
+                      <option value="">Select a city</option>
+                  </select>
+              </div>
+
+              <div class="form-group">
+                  <label for="image" class="form-label">Image</label>
+                  <input type="text" class="form-control" id="image" name="hotel[image]" style="border-radius: 5px;">
+              </div>
+
+              <div class="form-floating">
+                  <textarea class="form-control" placeholder="Leave a comment here" id="description" name="hotel[description]" style="border-radius: 5px;"></textarea>
+                  <label for="description">Description</label>
+              </div>
+
+              <button type="submit" class="mt-3 btn btn-primary" style="width: 100%; border-radius: 5px; font-weight: bold;">Submit</button>
+          </form>
+      </div>
+  </div>
+</div>
+
+
+  <script>
+    // Provided data
+    const data = [
+      {
+        "name": "Andhra Pradesh",
+        "cities": ["Visakhapatnam", "Vijayawada", "Guntur", "Nellore", "Kurnool", "Kakinada", "Rajahmundry"]
+      },
+      {
+        "name": "Arunachal Pradesh",
+        "cities": ["Itanagar", "Naharlagun", "Pasighat", "Namsai", "Bomdila", "Ziro"]
+      },
+      {
+        "name": "Assam",
+        "cities": ["Guwahati", "Silchar", "Dibrugarh", "Jorhat", "Nagaon", "Tezpur", "Tinsukia"]
+      },
+      {
+        "name": "Bihar",
+        "cities": ["Patna", "Gaya", "Bhagalpur", "Muzaffarpur", "Purnia", "Darbhanga", "Bihar Sharif"]
+      },
+      {
+        "name": "Chhattisgarh",
+        "cities": ["Raipur", "Bhilai", "Bilaspur", "Korba", "Rajnandgaon", "Durg", "Raigarh"]
+      },
+      {
+        "name": "Goa",
+        "cities": ["Panaji", "Vasco da Gama", "Margao", "Mapusa", "Ponda", "Bicholim"]
+      },
+      {
+        "name": "Gujarat",
+        "cities": ["Ahmedabad", "Surat", "Vadodara", "Rajkot", "Bhavnagar", "Jamnagar", "Junagadh"]
+      },
+      {
+        "name": "Haryana",
+        "cities": ["Faridabad", "Gurgaon", "Panipat", "Ambala", "Rohtak", "Hisar", "Karnal"]
+      },
+      {
+        "name": "Himachal Pradesh",
+        "cities": ["Shimla", "Mandi", "Solan", "Dharamshala", "Palampur", "Una", "Nahan"]
+      },
+      {
+        "name": "Jammu and Kashmir",
+        "cities": ["Srinagar", "Jammu", "Anantnag", "Baramulla", "Kathua", "Samba", "Pulwama"]
+      },
+      {
+        "name": "Jharkhand",
+        "cities": ["Ranchi", "Jamshedpur", "Dhanbad", "Bokaro", "Deoghar", "Hazaribagh", "Giridih"]
+      },
+      {
+        "name": "Karnataka",
+        "cities": ["Bangalore", "Mysore", "Hubli", "Mangalore", "Belgaum", "Davanagere", "Gulbarga"]
+      },
+      {
+        "name": "Kerala",
+        "cities": ["Thiruvananthapuram", "Kochi", "Kozhikode", "Thrissur", "Alappuzha", "Kollam", "Palakkad"]
+      },
+      {
+        "name": "Madhya Pradesh",
+        "cities": ["Bhopal", "Indore", "Jabalpur", "Gwalior", "Ujjain", "Sagar", "Dewas"]
+      },
+      {
+        "name": "Maharashtra",
+        "cities": ["Mumbai", "Pune", "Nagpur", "Nashik", "Aurangabad", "Thane", "Solapur"]
+      },
+      {
+        "name": "Manipur",
+        "cities": ["Imphal", "Thoubal", "Bishnupur", "Churachandpur", "Kakching", "Ukhrul", "Jiribam"]
+      },
+      {
+        "name": "Meghalaya",
+        "cities": ["Shillong", "Tura", "Jowai", "Nongpoh", "Williamnagar", "Baghmara", "Nongstoin"]
+      },
+      {
+        "name": "Mizoram",
+        "cities": ["Aizawl", "Lunglei", "Saiha", "Champhai", "Kolasib", "Serchhip", "Lawngtlai"]
+      },
+      {
+        "name": "Nagaland",
+        "cities": ["Dimapur", "Kohima", "Mokokchung", "Tuensang", "Wokha", "Zunheboto", "Phek"]
+      },
+      {
+        "name": "Odisha",
+        "cities": ["Bhubaneswar", "Cuttack", "Rourkela", "Brahmapur", "Sambalpur", "Puri", "Balasore"]
+      },
+      {
+        "name": "Punjab",
+        "cities": ["Ludhiana", "Amritsar", "Jalandhar", "Patiala", "Bathinda", "Mohali", "Pathankot"]
+      },
+      {
+        "name": "Rajasthan",
+        "cities": ["Jaipur", "Jodhpur", "Udaipur", "Kota", "Bikaner", "Ajmer", "Bhilwara"]
+      },
+      {
+        "name": "Sikkim",
+        "cities": ["Gangtok", "Namchi", "Gyalshing", "Mangan", "Singtam", "Rangpo"]
+      },
+      {
+        "name": "Tamil Nadu",
+        "cities": ["Chennai", "Coimbatore", "Madurai", "Tiruchirappalli", "Salem", "Tiruppur", "Erode"]
+      },
+      {
+        "name": "Telangana",
+        "cities": ["Hyderabad", "Warangal", "Nizamabad", "Karimnagar", "Khammam", "Ramagundam", "Mahbubnagar"]
+      },
+      {
+        "name": "Tripura",
+        "cities": ["Agartala", "Udaipur", "Dharmanagar", "Kailasahar", "Belonia", "Sabroom", "Khowai"]
+      },
+      {
+        "name": "Uttar Pradesh",
+        "cities": ["Lucknow", "Kanpur", "Agra", "Varanasi", "Allahabad", "Meerut", "Ghaziabad"]
+      },
+      {
+        "name": "Uttarakhand",
+        "cities": ["Dehradun", "Haridwar", "Roorkee", "Haldwani", "Rudrapur", "Kashipur", "Rishikesh"]
+      },
+      {
+        "name": "West Bengal",
+        "cities": ["Kolkata", "Howrah", "Durgapur", "Asansol", "Siliguri", "Bardhaman", "Malda"]
+      }
+    ];
+
+
+    // Get the dropdown elements
+    const stateDropdown = document.getElementById('stateDropdown');
+    const cityDropdown = document.getElementById('cityDropdown');
+
+    // Populate the state dropdown
+    for (const item of data) {
+      const option = document.createElement('option');
+      option.text = item.name;
+      stateDropdown.add(option);
+    }
+
+    // Function to populate city dropdown based on selected state
+    function populateCityDropdown() {
+      // Clear previous options
+      cityDropdown.innerHTML = '<option value="">Select a city</option>';
+
+      // Get selected state
+      const selectedState = stateDropdown.value;
+
+      // Find the cities of selected state
+      let selectedCities = [];
+      for (const item of data) {
+        if (item.name === selectedState) {
+          selectedCities = item.cities;
+          break;
+        }
+      }
+
+      // Populate the city dropdown with cities of selected state
+      for (const city of selectedCities) {
+        const option = document.createElement('option');
+        option.text = city;
+        cityDropdown.add(option);
+      }
+    }
+
+    // Set text to header
+    // const headerText = document.getElementById('header');
+    // headerText.innerText = "Anand Murti";
+  </script>
+
+<%- include('../partials/footer') %> 

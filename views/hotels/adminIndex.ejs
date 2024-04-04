@@ -1,0 +1,576 @@
+<%- include('../partials/header') %>
+  <%- include('../partials/adminNavbar') %>
+    <h3 style="text-align: center;" class="mt-2">Oberoi Properties</h3>
+
+    <div class="container-fluid mt-2">
+      <div class="row">
+        <div class="col-md-10 col-11 mx-auto">
+          <div class="row">
+            <!-- right side navbar -->
+            <div class="col-lg-12 col-md-4 d-md-block">
+              <div class="card bg-common card-left">
+                <div class="card-body">
+                  <ul class="nav nav-tabs card-header-tabs nav-fill">
+                    <li class="nav-item">
+                      <a data-toggle="tab" class="nav-link active" aria-current="page" href="#viewhotel"><i
+                          class="fa-solid fa-hotel"></i> Hotels</a>
+                    </li>
+                    <li class="nav-item">
+                      <a data-toggle="tab" class="nav-link" href="#addhotel"><i class="fa-solid fa-square-h"></i> Add
+                        Hotel</a>
+                    </li>
+                    <li class="nav-item">
+                      <a data-toggle="tab" class="nav-link" href="#bookings"><i class="fa-solid fa-bookmark"></i>
+                        Bookings</a>
+                    </li>
+                    <li class="nav-item">
+                      <a data-toggle="tab" class="nav-link" href="#transactions"><i class="fa-solid fa-money-bill"></i>
+                        Transactions</a>
+                    </li>
+                    <li class="nav-item">
+                      <a data-toggle="tab" class="nav-link" href="#users"><i class="fa-solid fa-user"></i> Users</a>
+                    </li>
+                    <li class="nav-item">
+                      <a data-toggle="tab" class="nav-link" href="#admins"><i class="fa-solid fa-lock"></i> Admins</a>
+                    </li>
+                    <li class="nav-item">
+                      <a data-toggle="tab" class="nav-link" href="#addroomtype"><i class="fa-solid fa-circle-plus"></i>
+                        Add Room Type</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <!-- right side div start -->
+            <div class="col-lg-12 col-md-9">
+              <div class="card"
+                style="background-color: #f8f9fa; padding: 20px; border-radius: 10px; box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);">
+                <div class="card-header border-bottom mb-3 d-md-none">
+                  <ul class="nav nav-tabs card-header-tabs nav-fill"
+                    style="background-color: #40343a; border-radius: 10px;">
+                    <li class="nav-item">
+                      <a data-toggle="tab" class="nav-link active" aria-current="page" href="#viewhotel"><i
+                          class="fa-solid fa-user"></i></a>
+                    </li>
+                    <li class="nav-item">
+                      <a data-toggle="tab" class="nav-link" href="#addhotel"><i class="fa-solid fa-user"></i></a>
+                    </li>
+                    <li class="nav-item">
+                      <a data-toggle="tab" class="nav-link" href="#bookings"><i class="fa-solid fa-user"></i></a>
+                    </li>
+                    <li class="nav-item">
+                      <a data-toggle="tab" class="nav-link" href="#transactions"><i class="fa-solid fa-user"></i></a>
+                    </li>
+                    <li class="nav-item">
+                      <a data-toggle="tab" class="nav-link" href="#users"><i class="fa-solid fa-user"></i></a>
+                    </li>
+                    <li class="nav-item">
+                      <a data-toggle="tab" class="nav-link" href="#admins"><i class="fa-solid fa-user"></i></a>
+                    </li>
+                    <li class="nav-item">
+                      <a data-toggle="tab" class="nav-link" href="#addroomtype"><i class="fa-solid fa-user"></i></a>
+                    </li>
+                  </ul>
+                </div>
+                <!-- actual data which is live start -->
+                <div class="card-body tab-content border-0">
+
+                  <!-- actual view Hotel data -->
+                  <div class="tab-pane active" id="viewhotel">
+                    <div class="container">
+                      <div class="row">
+                        <% for(let hotel of adminHotels){ %>
+                          <div class="col-lg-4 mt-4 d-flex justify-content-center">
+                            <div class="card shadow" style="width: 18rem;">
+                              <a href="/hotels/admin/<%= hotel.hotelId %>" style="display: block; overflow: hidden;">
+                                <img src="<%= hotel.image[0] %>" class="card-img-top" alt="..."
+                                  style="height: 200px; object-fit: cover; transition: transform 0.3s ease; transform: scale(1);"
+                                  onmouseover="this.style.transform='scale(1.1)'"
+                                  onmouseout="this.style.transform='scale(1)';">
+                              </a>
+                              <div class="card-body">
+                                <h5 class="card-title">
+                                  <%= hotel.name %>
+                                </h5>
+                                <span class="card-text">
+                                  <%= hotel.address.city %>,
+                                </span><br>
+                                <span class="card-text">
+                                  <%= hotel.address.state %>
+                                </span><br>
+                                <a href="/hotels/admin/<%= hotel.hotelId %>" class="btn btn-primary">View Hotel</a>
+                                <!-- <a href="hotels/rooms" class="btn btn-info">More Details</a> -->
+                              </div>
+                            </div>
+                          </div>
+                          <% } %>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- actual view Hotel data -->
+                  <div class="tab-pane" id="addhotel">
+                    <h5>Add Hotel</h5>
+                    <style>
+                      /* Custom CSS to adjust vertical spacing */
+                      .custom-form-group {
+                        margin-bottom: 5px;
+                        /* Adjust the value as per your choice */
+                      }
+                    </style>
+                    <div class="container mt-3">
+                      <div class="row">
+                        <div class="col-lg-6 m-auto">
+                          <form action="/addHotels" method="post"
+                            style="background-color: #f8f9fa; padding: 20px; border-radius: 10px; box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);">
+                            <div class="form-group">
+                              <label for="name" class="form-label">Hotel Name</label>
+                              <input type="text" class="form-control" id="name" name="hotel[name]"
+                                style="border-radius: 5px;">
+                            </div>
+
+                            <div class="form-group">
+                              <label for="address" class="form-label">Address</label>
+                              <input type="text" class="form-control" id="address" name="hotel[address.fullAddress]"
+                                style="border-radius: 5px;">
+                            </div>
+
+                            <div class="form-group">
+                              <label for="stateDropdown" class="form-label">State</label>
+                              <select id="stateDropdown" name="hotel[address.state]" onchange="populateCityDropdown()"
+                                style="width: 100%; height: 39px; border-color: lightgray; border-radius: 5px;">
+                                <option value="">Select a state</option>
+                              </select>
+                            </div>
+
+                            <div class="form-group">
+                              <label for="cityDropdown" class="form-label">City</label>
+                              <select id="cityDropdown" name="hotel[address.city]"
+                                style="width: 100%; height: 39px; border-color: lightgray; border-radius: 5px;">
+                                <option value="">Select a city</option>
+                              </select>
+                            </div>
+
+                            <div class="form-group">
+                              <label for="image" class="form-label">Image</label>
+                              <input type="text" class="form-control" id="image" name="hotel[image]"
+                                style="border-radius: 5px;">
+                            </div>
+
+                            <div class="form-floating">
+                              <textarea class="form-control" placeholder="Leave a comment here" id="description"
+                                name="hotel[description]" style="border-radius: 5px;"></textarea>
+                              <label for="description">Description</label>
+                            </div>
+
+                            <button type="submit" class="mt-3 btn btn-primary"
+                              style="width: 100%; border-radius: 5px; font-weight: bold;">Submit</button>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+
+
+                    <script>
+                      // Provided data
+                      const data = [
+                        {
+                          "name": "Andhra Pradesh",
+                          "cities": ["Visakhapatnam", "Vijayawada", "Guntur", "Nellore", "Kurnool", "Kakinada", "Rajahmundry"]
+                        },
+                        {
+                          "name": "Arunachal Pradesh",
+                          "cities": ["Itanagar", "Naharlagun", "Pasighat", "Namsai", "Bomdila", "Ziro"]
+                        },
+                        {
+                          "name": "Assam",
+                          "cities": ["Guwahati", "Silchar", "Dibrugarh", "Jorhat", "Nagaon", "Tezpur", "Tinsukia"]
+                        },
+                        {
+                          "name": "Bihar",
+                          "cities": ["Patna", "Gaya", "Bhagalpur", "Muzaffarpur", "Purnia", "Darbhanga", "Bihar Sharif"]
+                        },
+                        {
+                          "name": "Chhattisgarh",
+                          "cities": ["Raipur", "Bhilai", "Bilaspur", "Korba", "Rajnandgaon", "Durg", "Raigarh"]
+                        },
+                        {
+                          "name": "Goa",
+                          "cities": ["Panaji", "Vasco da Gama", "Margao", "Mapusa", "Ponda", "Bicholim"]
+                        },
+                        {
+                          "name": "Gujarat",
+                          "cities": ["Ahmedabad", "Surat", "Vadodara", "Rajkot", "Bhavnagar", "Jamnagar", "Junagadh"]
+                        },
+                        {
+                          "name": "Haryana",
+                          "cities": ["Faridabad", "Gurgaon", "Panipat", "Ambala", "Rohtak", "Hisar", "Karnal"]
+                        },
+                        {
+                          "name": "Himachal Pradesh",
+                          "cities": ["Shimla", "Mandi", "Solan", "Dharamshala", "Palampur", "Una", "Nahan"]
+                        },
+                        {
+                          "name": "Jammu and Kashmir",
+                          "cities": ["Srinagar", "Jammu", "Anantnag", "Baramulla", "Kathua", "Samba", "Pulwama"]
+                        },
+                        {
+                          "name": "Jharkhand",
+                          "cities": ["Ranchi", "Jamshedpur", "Dhanbad", "Bokaro", "Deoghar", "Hazaribagh", "Giridih"]
+                        },
+                        {
+                          "name": "Karnataka",
+                          "cities": ["Bangalore", "Mysore", "Hubli", "Mangalore", "Belgaum", "Davanagere", "Gulbarga"]
+                        },
+                        {
+                          "name": "Kerala",
+                          "cities": ["Thiruvananthapuram", "Kochi", "Kozhikode", "Thrissur", "Alappuzha", "Kollam", "Palakkad"]
+                        },
+                        {
+                          "name": "Madhya Pradesh",
+                          "cities": ["Bhopal", "Indore", "Jabalpur", "Gwalior", "Ujjain", "Sagar", "Dewas"]
+                        },
+                        {
+                          "name": "Maharashtra",
+                          "cities": ["Mumbai", "Pune", "Nagpur", "Nashik", "Aurangabad", "Thane", "Solapur"]
+                        },
+                        {
+                          "name": "Manipur",
+                          "cities": ["Imphal", "Thoubal", "Bishnupur", "Churachandpur", "Kakching", "Ukhrul", "Jiribam"]
+                        },
+                        {
+                          "name": "Meghalaya",
+                          "cities": ["Shillong", "Tura", "Jowai", "Nongpoh", "Williamnagar", "Baghmara", "Nongstoin"]
+                        },
+                        {
+                          "name": "Mizoram",
+                          "cities": ["Aizawl", "Lunglei", "Saiha", "Champhai", "Kolasib", "Serchhip", "Lawngtlai"]
+                        },
+                        {
+                          "name": "Nagaland",
+                          "cities": ["Dimapur", "Kohima", "Mokokchung", "Tuensang", "Wokha", "Zunheboto", "Phek"]
+                        },
+                        {
+                          "name": "Odisha",
+                          "cities": ["Bhubaneswar", "Cuttack", "Rourkela", "Brahmapur", "Sambalpur", "Puri", "Balasore"]
+                        },
+                        {
+                          "name": "Punjab",
+                          "cities": ["Ludhiana", "Amritsar", "Jalandhar", "Patiala", "Bathinda", "Mohali", "Pathankot"]
+                        },
+                        {
+                          "name": "Rajasthan",
+                          "cities": ["Jaipur", "Jodhpur", "Udaipur", "Kota", "Bikaner", "Ajmer", "Bhilwara"]
+                        },
+                        {
+                          "name": "Sikkim",
+                          "cities": ["Gangtok", "Namchi", "Gyalshing", "Mangan", "Singtam", "Rangpo"]
+                        },
+                        {
+                          "name": "Tamil Nadu",
+                          "cities": ["Chennai", "Coimbatore", "Madurai", "Tiruchirappalli", "Salem", "Tiruppur", "Erode"]
+                        },
+                        {
+                          "name": "Telangana",
+                          "cities": ["Hyderabad", "Warangal", "Nizamabad", "Karimnagar", "Khammam", "Ramagundam", "Mahbubnagar"]
+                        },
+                        {
+                          "name": "Tripura",
+                          "cities": ["Agartala", "Udaipur", "Dharmanagar", "Kailasahar", "Belonia", "Sabroom", "Khowai"]
+                        },
+                        {
+                          "name": "Uttar Pradesh",
+                          "cities": ["Lucknow", "Kanpur", "Agra", "Varanasi", "Allahabad", "Meerut", "Ghaziabad"]
+                        },
+                        {
+                          "name": "Uttarakhand",
+                          "cities": ["Dehradun", "Haridwar", "Roorkee", "Haldwani", "Rudrapur", "Kashipur", "Rishikesh"]
+                        },
+                        {
+                          "name": "West Bengal",
+                          "cities": ["Kolkata", "Howrah", "Durgapur", "Asansol", "Siliguri", "Bardhaman", "Malda"]
+                        }
+                      ];
+
+
+                      // Get the dropdown elements
+                      const stateDropdown = document.getElementById('stateDropdown');
+                      const cityDropdown = document.getElementById('cityDropdown');
+
+                      // Populate the state dropdown
+                      for (const item of data) {
+                        const option = document.createElement('option');
+                        option.text = item.name;
+                        stateDropdown.add(option);
+                      }
+
+                      // Function to populate city dropdown based on selected state
+                      function populateCityDropdown() {
+                        // Clear previous options
+                        cityDropdown.innerHTML = '<option value="">Select a city</option>';
+
+                        // Get selected state
+                        const selectedState = stateDropdown.value;
+
+                        // Find the cities of selected state
+                        let selectedCities = [];
+                        for (const item of data) {
+                          if (item.name === selectedState) {
+                            selectedCities = item.cities;
+                            break;
+                          }
+                        }
+
+                        // Populate the city dropdown with cities of selected state
+                        for (const city of selectedCities) {
+                          const option = document.createElement('option');
+                          option.text = city;
+                          cityDropdown.add(option);
+                        }
+                      }
+
+                      // Set text to header
+                      // const headerText = document.getElementById('header');
+                      // headerText.innerText = "Anand Murti";
+                    </script>
+                  </div>
+                  <!-- actual Booking Hotel data -->
+                  <div class="tab-pane" id="bookings">
+                    <h5>Bookings</h5>
+                    <% function formatDate(date) { %>
+                      <% var formattedDate=new Date(date); %>
+                        <% var day=formattedDate.getDate(); %>
+                          <% var month=formattedDate.getMonth() + 1; %>
+                            <% var year=formattedDate.getFullYear(); %>
+                              <% day=(day < 10) ? '0' + day : day; %>
+                                <% month=(month < 10) ? '0' + month : month; %>
+                                  <% return day + '/' + month + '/' + year; %>
+                                    <% } %>
+
+                                      <table style="width: 100%; border-collapse: collapse; border: 1px solid #ddd;">
+                                        <thead>
+                                          <tr>
+                                            <th
+                                              style="border: 1px solid black; padding: 8px; background-color: #f2f2f2;">
+                                              Booking Date</th>
+                                            <th
+                                              style="border: 1px solid black; padding: 8px; background-color: #f2f2f2;">
+                                              Booking Id</th>
+                                            <th
+                                              style="border: 1px solid black; padding: 8px; background-color: #f2f2f2;">
+                                              Hotels</th>
+                                            <th
+                                              style="border: 1px solid black; padding: 8px; background-color: #f2f2f2;">
+                                              Room </th>
+                                            <th
+                                              style="border: 1px solid black; padding: 8px; background-color: #f2f2f2;">
+                                              Check In</th>
+                                            <th
+                                              style="border: 1px solid black; padding: 8px; background-color: #f2f2f2;">
+                                              Check Out</th>
+                                            <th
+                                              style="border: 1px solid black; padding: 8px; background-color: #f2f2f2;">
+                                              Users</th>
+                                            <th
+                                              style="border: 1px solid black; padding: 8px; background-color: #f2f2f2;">
+                                              Status</th>
+                                            <th
+                                              style="border: 1px solid black; padding: 8px; background-color: #f2f2f2;">
+                                              Amount</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          <% mBooking.forEach(function(booking) { %>
+                                            <tr>
+                                              <td style="border: 1px solid black; padding: 8px; text-align: left;">
+                                                <%= formatDate(booking.bookingDate) %>
+                                              </td>
+                                              <td style="border: 1px solid black; padding: 8px; text-align: left;">
+                                                <%= booking.bookingId %>
+                                              </td>
+                                              <td style="border: 1px solid black; padding: 8px; text-align: left;">
+                                                <% for (let myHotel of adminHotels) { %>
+                                                  <% if (booking.hotelId===myHotel.hotelId) { %>
+                                                    <%= myHotel.name %>
+                                                      <% } %>
+                                                        <% } %>
+                                              </td>
+                                              <td style="border: 1px solid black; padding: 8px; text-align: left;">
+                                                <% for(let myRoom of mRoom){ %>
+                                                  <% if(booking.roomId===myRoom.roomId){ %>
+                                                    <%= myRoom.roomName %>
+                                                      <% } %>
+                                                        <% } %>
+                                              </td>
+                                              <td style="border: 1px solid black; padding: 8px; text-align: left;">
+                                                <%= formatDate(booking.checkInDate) %>
+                                              </td>
+                                              <td style="border: 1px solid black; padding: 8px; text-align: left;">
+                                                <%= formatDate(booking.checkOutDate) %>
+                                              </td>
+                                              <td style="border: 1px solid black; padding: 8px; text-align: left;">
+                                                <%= booking.userId %>
+                                              </td>
+                                              <td style="border: 1px solid black; padding: 8px; text-align: left;">
+                                                <%= booking.bookingStatus %>
+                                              </td>
+                                              <td style="border: 1px solid black; padding: 8px; text-align: left;">
+                                                <%= booking.amount %>
+                                              </td>
+                                            </tr>
+                                            <% }); %>
+                                        </tbody>
+                                      </table>
+
+                                      </tr>
+                  </div>
+                  <!-- actual Transaction data -->
+                  <div class="tab-pane" id="transactions">
+                    <h5>Transactions</h5>
+                    <table style="width: 100%; border-collapse: collapse; border: 1px solid #ddd;">
+                      <thead>
+                        <tr>
+                          <th style="border: 1px solid black; padding: 8px; background-color: #f2f2f2;">Booking Id</th>
+                          <th style="border: 1px solid black; padding: 8px; background-color: #f2f2f2;">Hotel</th>
+                          <th style="border: 1px solid black; padding: 8px; background-color: #f2f2f2;">Room</th>
+                          <th style="border: 1px solid black; padding: 8px; background-color: #f2f2f2;">Amount</th>
+                          <th style="border: 1px solid black; padding: 8px; background-color: #f2f2f2;">Booking Date
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% for(let booking of mBooking){ %>
+                          <tr>
+                            <td style="border: 1px solid black; padding: 8px; text-align: left;">
+                              <%= booking.bookingId %>
+                            </td>
+                            <td style="border: 1px solid black; padding: 8px; text-align: left;">
+                              <!-- Hotels -->
+                              <% for(uHotel of adminHotels) {%>
+                                <% if(booking.hotelId===uHotel.hotelId) {%>
+                                  <%= uHotel.name%>
+                                    <% } %>
+                                      <% } %>
+                            </td>
+                            <!-- Rooms -->
+                            <td style="border: 1px solid black; padding: 8px; text-align: left;">
+                              <% for(let uRoom of mRoom) {%>
+                                <% if(booking.roomId===uRoom.roomId) {%>
+                                  <%= uRoom.roomName %>
+                                    <% } %>
+                                      <% } %>
+                            </td>
+                            <td style="border: 1px solid black; padding: 8px; text-align: left;">
+                              <%= booking.amount %>
+                            </td>
+                            <% function formatDate(date) { %>
+                              <% var formattedDate=new Date(date); %>
+                                <% var day=formattedDate.getDate(); %>
+                                  <% var month=formattedDate.getMonth() + 1; %>
+                                    <% var year=formattedDate.getFullYear(); %>
+                                      <% day=(day < 10) ? '0' + day : day; %>
+                                        <% month=(month < 10) ? '0' + month : month; %>
+                                          <% return day + '/' + month + '/' + year; %>
+                                            <% } %>
+                                              <td style="border: 1px solid black; padding: 8px; text-align: left;">
+                                                <%= formatDate(booking.bookingDate) %>
+                                              </td>
+                          </tr>
+                          <% } %>
+                      </tbody>
+                    </table>
+                  </div>
+                  <!-- actual Users data -->
+                  <div class="tab-pane" id="users">
+                    <h5>Users</h5>
+                    <table style="width: 100%; border-collapse: collapse; border: 1px solid #ddd;">
+                      <thead>
+                        <tr>
+                          <th style="border: 1px solid black; padding: 8px; background-color: #f2f2f2;">User Name</th>
+                          <th style="border: 1px solid black; padding: 8px; background-color: #f2f2f2;">User Id</th>
+                          <th style="border: 1px solid black; padding: 8px; background-color: #f2f2f2;">Address</th>
+                          <th style="border: 1px solid black; padding: 8px; background-color: #f2f2f2;">Email</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% for(let hotelUsers of mUsers) {%>
+                          <tr>
+                            <td style="border: 1px solid black; padding: 8px; text-align: left;">
+                              <%= hotelUsers.userName %>
+                            </td>
+                            <td style="border: 1px solid black; padding: 8px; text-align: left;">
+                              <%= hotelUsers.userId %>
+                            </td>
+                            <td style="border: 1px solid black; padding: 8px; text-align: left;">
+                              <%= hotelUsers.address %>
+                            </td>
+                            <td style="border: 1px solid black; padding: 8px; text-align: left;">
+                              <%= hotelUsers.email %>
+                            </td>
+                          </tr>
+                          <% } %>
+                      </tbody>
+                    </table>
+                  </div>
+                  <!-- actual ADmin data -->
+                  <div class="tab-pane" id="admins">
+                    <h5>Admins</h5>
+                    <table style="width: 100%; border-collapse: collapse; border: 1px solid #ddd;">
+                      <thead>
+                        <tr>
+                          <th style="border: 1px solid black; padding: 8px; background-color: #f2f2f2;">User Name</th>
+                          <th style="border: 1px solid black; padding: 8px; background-color: #f2f2f2;">User Id</th>  
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% for(let hotelAdmins of mAdmin) {%>
+                          <tr>
+                            <td style="border: 1px solid black; padding: 8px; text-align: left;">
+                              <%= hotelAdmins.adminName %>
+                            </td>
+                            <td style="border: 1px solid black; padding: 8px; text-align: left;">
+                              <%= hotelAdmins.adminId %>
+                            </td>
+                          </tr>
+                          <% } %>
+                      </tbody>
+                    </table>
+                  </div>
+                  <!-- actual Add Room Type data -->
+                  <div class="tab-pane" id="addroomtype">
+                    <h5>Add Room Type</h5>
+                    <div class="container mt-3">
+                      <div class="row">
+                          <div class="col-lg-6 m-auto">
+                            <form action="/saveRoomType" method="post" style="background-color: #f8f9fa; padding: 20px; border-radius: 10px; box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);">
+                              <div class="form-group">
+                                  <label for="name" class="form-label">Room Type</label>
+                                  <input type="text" class="form-control" id="name" name="room[roomType]" style="border-radius: 5px;">
+                              </div>
+                              <div class="form-group">
+                                  <label for="name" class="form-label">Room Name</label>
+                                  <input type="text" class="form-control" id="name" name="room[roomName]" style="border-radius: 5px;">
+                              </div>
+                              <div class="form-group">
+                                  <label for="roomId" class="form-label">Room Id</label>
+                                  <input type="text" class="form-control" id="name" name="room[roomId]" style="border-radius: 5px;">
+                              </div>
+                              <div class="form-group">
+                                  <label for="personCount" class="form-label">Person Count</label>
+                                  <input type="text" class="form-control" id="name" name="room[personCount]" style="border-radius: 5px;">
+                              </div>
+                              <button type="submit" class="mt-3 btn btn-primary" style="width: 100%; border-radius: 5px; font-weight: bold;">Submit</button>
+                          </form>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <%- include('../partials/footer') %>
